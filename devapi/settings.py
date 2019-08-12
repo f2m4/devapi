@@ -10,11 +10,14 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
-import os
+import os,sys
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
+# 所有app独立存放
+APP_DIR = os.path.join(BASE_DIR,'apps')
+sys.path.append(APP_DIR)
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
@@ -31,7 +34,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'simpleui',
+    # 'simpleui',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -39,6 +42,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'devs',
+    'humanres',
 ]
 
 MIDDLEWARE = [
@@ -56,7 +61,8 @@ ROOT_URLCONF = 'devapi.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [#os.path.join(APP_DIR, 'appt/templates'),
+                 os.path.join(BASE_DIR, 'templates'),],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -75,13 +81,27 @@ WSGI_APPLICATION = 'devapi.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+#     }
+# }
+
+# mysql数据库配置
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'qhjdb',
+        'HOST': '127.0.0.1',
+        'USER': 'qhj',
+        'PASSWORD': 'admin888',
+        # 'OPTIONS':{
+        #     'init_command': "SET sql_mode='STRICT_TRANS_TABLES'"
+        # }
+
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
@@ -128,6 +148,8 @@ REST_FRAMEWORK = {
 STATICFILES_DIRS = [
      os.path.join(BASE_DIR, "static"),
  ]
+
+# STATIC_ROOT = os.path.join(BASE_DIR, "static")
 
 SIMPLEUI_LOGO='/static/pic/yklogo.png'
 SIMPLEUI_HOME_TITLE = '轻合金生产保障中心'
