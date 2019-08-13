@@ -1,6 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import User
+from ckeditor_uploader.fields import RichTextUploadingField
 from humanres.models import GroupModel
+
 # Create your models here.
 # 生产线
 class WorklineModel(models.Model):
@@ -78,7 +80,8 @@ class DevRecordsModel(models.Model):
     # 故障设备id
     devsid = models.ForeignKey(DevsModel,on_delete=models.DO_NOTHING,blank=True,verbose_name ='故障设备id')
     # 故障描述
-    description = models.TextField(blank=True,verbose_name ='描述')
+    # description = models.TextField(blank=True,verbose_name ='描述')
+    description = RichTextUploadingField(blank=True,verbose_name ='描述')
     # 故障等级
     level = models.CharField(
         max_length=2,
@@ -103,7 +106,7 @@ class WorkRecordsModel(models.Model):
     # 设备报修记录id
     devRecordid = models.ForeignKey(DevRecordsModel,on_delete=models.DO_NOTHING,verbose_name ='设备报修记录id')
     # 故障处理描述
-    description = models.TextField(blank=True,verbose_name ='故障处理描述')
+    description = RichTextUploadingField(blank=True,verbose_name ='故障处理描述')
     # 故障状态 False,正在维修.True,维修完成
     isfininsh = models.BooleanField(default=False,verbose_name ='故障状态')
     # 创建时间

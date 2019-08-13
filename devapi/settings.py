@@ -28,13 +28,13 @@ SECRET_KEY = 'hq+221uncmpa1&l54b9myw5-fp%i8gmtu+%+hjxdbxyi8ui!!-'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
 
 INSTALLED_APPS = [
-    # 'simpleui',
+    'simpleui',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -42,8 +42,12 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
-    'devs',
-    'humanres',
+    'ckeditor',
+    'ckeditor_uploader',
+    'devs', # 设备管理
+    'humanres', # HR
+    'spmanage', # 备件管理
+    'internalmarket' # 内部市场
 ]
 
 MIDDLEWARE = [
@@ -62,7 +66,7 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [#os.path.join(APP_DIR, 'appt/templates'),
-                 os.path.join(BASE_DIR, 'templates'),],
+                 os.path.join(BASE_DIR, 'templates'),],  # 添加temlpates目录
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -140,16 +144,96 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/static/'
+# 定义全局的static文件目录
+STATICFILES_DIRS = [
+     os.path.join(BASE_DIR, "static"),
+ ]
+# 部署时
+STATIC_ROOT = os.path.join(BASE_DIR, "static")
+
 REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 10
 }
 
-STATICFILES_DIRS = [
-     os.path.join(BASE_DIR, "static"),
- ]
 
-# STATIC_ROOT = os.path.join(BASE_DIR, "static")
 
 SIMPLEUI_LOGO='/static/pic/yklogo.png'
 SIMPLEUI_HOME_TITLE = '轻合金生产保障中心'
+
+
+
+# media目录
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+# ckeditor配置
+CKEDITOR_UPLOAD_PATH='upload/'
+CKEDITOR_CONFIGS = {
+    # 留言板message的编辑框配置文件
+    'message_ckeditor': {
+        'toolbar': 'Custom',
+        'toolbar_Custom': [
+            {'name': 'basicstyles',
+             'items': ['Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript', '-', 'RemoveFormat']},
+            {'name': 'paragraph',
+             'items': ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'Blockquote', 'CreateDiv', '-',
+                       'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-', 'BidiLtr', 'BidiRtl',
+                       'Language']},
+            {'name': 'links', 'items': ['Link', 'Unlink', 'Anchor']},
+
+            {'name': 'clipboard', 'items': ['Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord', '-', 'Undo', 'Redo']},
+            {'name': 'editing', 'items': ['Find', 'Replace', '-', 'SelectAll']},
+            {'name': 'forms',
+             'items': ['Form', 'Checkbox', 'Radio', 'TextField', 'Textarea', 'Select', 'Button', 'ImageButton',
+                       'HiddenField']},
+            {'name': 'document', 'items': ['Source', '-', 'Preview', 'Print', '-', 'Templates']},
+
+            {'name': 'styles', 'items': ['Styles', 'Format', 'Font', 'FontSize']},
+            {'name': 'colors', 'items': ['TextColor', 'BGColor']},
+            {'name': 'insert',
+             'items': ['Image', 'Table', 'HorizontalRule', 'Smiley', 'SpecialChar', 'PageBreak', 'Iframe']},
+
+            {'name': 'tools', 'items': ['Maximize', 'ShowBlocks']},
+            {'name': 'about', 'items': ['About']},
+            {'name': 'yourcustomtools', 'items': [
+                # put the name of your editor.ui.addButton here
+                'Preview',
+                'Maximize',
+
+            ]},
+
+        ],
+        'width': 'auto',
+        'tabSpaces': 4,
+
+    },
+    # task 里面的编辑框配置文件
+    'task_ckeditor': {
+        'toolbar': 'Custom',
+        'toolbar_Custom': [
+            {'name': 'basicstyles',
+             'items': ['Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript', '-', 'RemoveFormat']},
+            {'name': 'document',
+             'items': ['Image', 'Table', 'HorizontalRule', 'Smiley', 'SpecialChar', 'PageBreak', 'Source', '-',
+                       'Preview', 'Print', 'Maximize']},
+            {'name': 'styles', 'items': ['Styles', 'Format', 'Font', 'FontSize']},
+            {'name': 'colors', 'items': ['TextColor', 'BGColor']},
+
+        ],
+        'width': 'auto',
+        'tabSpaces': 4,
+
+    },
+    # 默认配置,不使用参数的时候必须有
+    'default': {
+        'toolbar': 'Custom',
+        'toolbar_Custom': [
+            ['Bold', 'Italic', 'Underline'],
+            ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'JustifyLeft', 'JustifyCenter',
+             'JustifyRight', 'JustifyBlock'],
+            ['Link', 'Unlink','Image'],
+            ['RemoveFormat', 'Source']
+        ]
+    }
+}
