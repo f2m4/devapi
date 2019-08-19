@@ -2,6 +2,14 @@ from django.contrib import admin
 from . import models
 # Register your models here.
 
+# 页面标题
+admin.site.site_title="设备数据管理"
+# 登录页导航条和首页导航条标题
+admin.site.site_header="轻合金生产保障中心后台"
+# 主页标题
+admin.site.index_title="欢迎登陆"
+
+
 @admin.register(models.GroupModel)
 class GroupAdmin(admin.ModelAdmin):
     list_display = ('id', 'name', 'description', 'crtime', 'uptime')

@@ -4,6 +4,7 @@ from devs.models import WorkRecordsModel
 from spmanage.models import OutlabModel
 from humanres.models import ClassModel,GroupModel
 
+
 # 结算单
 class CheckoutModel(models.Model):
     # 检修单
@@ -41,3 +42,4 @@ class WorkerfeeModel(models.Model):
     crtime = models.DateTimeField(auto_now_add=True,verbose_name ='创建时间')
     # 修改时间
     uptime = models.DateTimeField(auto_now=True,verbose_name ='修改时间')
+
