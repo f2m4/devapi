@@ -41,3 +41,27 @@ class WorkerfeeModel(models.Model):
     crtime = models.DateTimeField(auto_now_add=True,verbose_name ='创建时间')
     # 修改时间
     uptime = models.DateTimeField(auto_now=True,verbose_name ='修改时间')
+
+
+
+# 清工
+class QingGongModel(models.Model):
+    # 名称
+    name = models.CharField(max_length=100,verbose_name ='作业名称')
+    # 工时
+    workingHours = models.CharField(max_length=100,verbose_name ='工时',blank=True)
+    # 人工费
+    fee=models.IntegerField(blank=True,verbose_name ='人工费')
+    # 备注
+    remark = models.CharField(max_length=100,verbose_name ='备注',blank=True)
+    # 创建时间
+    crtime = models.DateTimeField(auto_now_add=True,verbose_name ='创建时间')
+    # 修改时间
+    uptime = models.DateTimeField(auto_now=True,verbose_name ='修改时间')
+
+    def __str__(self):
+        return self.workrecordid
+    class Meta:
+        ordering = ['crtime']
+        verbose_name = '人工费定额'
+        verbose_name_plural = '人工费定额'

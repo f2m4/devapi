@@ -39,8 +39,8 @@ class ClassModel(models.Model):
         verbose_name_plural = '班组表'
 # 职务
 class OfficeModel(models.Model):
-    # 用户id
-    uid = models.ForeignKey(User, on_delete=models.DO_NOTHING,verbose_name ='用户id')
+    # 职务名称
+    name = models.CharField(max_length=20,verbose_name ='名称')
     # 描述
     description = models.TextField(blank=True,verbose_name ='描述')
     # 所属部门id
@@ -52,7 +52,7 @@ class OfficeModel(models.Model):
     # 修改时间
     uptime = models.DateTimeField(auto_now=True,verbose_name ='修改时间')
     def __str__(self):
-        return self.uid
+        return self.name
     class Meta:
         ordering = ['crtime']
         verbose_name = '职务表'
@@ -69,13 +69,13 @@ class PersonnelModel(models.Model):
     # 手机号码
     phonenum = models.CharField(max_length=20, verbose_name='手机号码')
     # 办公电话
-    phoneoffice = models.CharField(max_length=20, verbose_name='办公电话')
+    phoneoffice = models.CharField(max_length=20, blank=True,verbose_name='办公电话')
     # 描述
     description = models.TextField(blank=True,verbose_name ='描述')
     # 所属部门id
-    groupid = models.ForeignKey(GroupModel, on_delete=models.DO_NOTHING,blank=True,verbose_name ='所属部门')
+    groupid = models.ForeignKey(GroupModel, on_delete=models.DO_NOTHING,blank=True,null=True,verbose_name ='所属部门')
     # 所属班组id
-    classid = models.ForeignKey(ClassModel, on_delete=models.DO_NOTHING,blank=True,verbose_name ='所属班组')
+    classid = models.ForeignKey(ClassModel, on_delete=models.DO_NOTHING,blank=True,null=True,verbose_name ='所属班组')
     # 职务
     office = models.ManyToManyField(OfficeModel,blank=True,verbose_name ='职务')
     # 创建时间
