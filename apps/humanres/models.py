@@ -26,7 +26,7 @@ class ClassModel(models.Model):
     # 描述
     description = models.TextField(blank=True,verbose_name ='描述')
     # 所属部门
-    group = models.ForeignKey(GroupModel, on_delete=models.DO_NOTHING,verbose_name ='所属部门')
+    group = models.ForeignKey(GroupModel, on_delete=models.DO_NOTHING,verbose_name ='所属部门',default=1)
     # 创建时间
     crtime = models.DateTimeField(auto_now_add=True,verbose_name ='创建时间')
     # 修改时间

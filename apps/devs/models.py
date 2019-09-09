@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from ckeditor_uploader.fields import RichTextUploadingField
-from humanres.models import GroupModel
+from humanres.models import GroupModel,ClassModel
 
 # Create your models here.
 # 生产线
@@ -123,14 +123,16 @@ class WorkRecordsModel(models.Model):
 
 
 class WorkRecModel(models.Model):
+    #工作班组
+    classId=models.ForeignKey(ClassModel,on_delete=models.DO_NOTHING,verbose_name='班组')
     # 设备名称
     devName=models.ForeignKey(DevsModel,on_delete=models.DO_NOTHING,verbose_name='设备名称')
     # 设备部位
     devPart = models.CharField(max_length=50, verbose_name='设备部位',blank=True)
     # 故障描述 可做富文本
-    faultDescription=models.CharField(max_length=200, verbose_name='故障描述',blank=True)
+    faultDescription=models.TextField(verbose_name='故障描述',blank=True)
     # 检修内容
-    repairContent = models.CharField(max_length=200, verbose_name='检修内容',blank=True)
+    repairContent = models.TextField(verbose_name='检修内容',blank=True)
     # 工作分类
     workType=models.CharField(max_length=50, verbose_name='工作分类',blank=True)
     # 故障分类
