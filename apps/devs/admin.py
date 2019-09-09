@@ -70,3 +70,21 @@ class WorkRecordsAdmin(admin.ModelAdmin):
     list_display = ('uid', 'devRecordid', 'description', 'isfininsh','crtime', 'uptime')
     #设置点击进入编辑界面的链接字段
     list_display_links = ('uid', 'description')
+
+
+# 维修台帐
+@admin.register(models.WorkRecModel)
+class WorkRecAdmin(admin.ModelAdmin):
+    list_display = ('id', 'devName', 'devPart', 'faultDescription','repairContent','workType','faultType',
+                    'spareName','spareType','spareUnit','spareQuantity','participants_list','description',
+                    'isfininsh','crtime', 'uptime')
+    #设置点击进入编辑界面的链接字段
+    list_display_links = ('id',)
+
+    # 多对多自定义
+    def participants_list(self, obj):
+        """自定义列表字段"""
+        participants_names = map(lambda x: x.username, obj.participants.all())
+        return ', '.join(participants_names)
+    # 定义列名
+    participants_list.short_description = '设备表'

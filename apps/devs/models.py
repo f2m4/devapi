@@ -120,3 +120,43 @@ class WorkRecordsModel(models.Model):
         ordering = ['-crtime']
         verbose_name = '检修记录'
         verbose_name_plural = '检修记录'
+
+
+class WorkRecModel(models.Model):
+    # 设备名称
+    devName=models.ForeignKey(DevsModel,on_delete=models.DO_NOTHING,verbose_name='设备名称')
+    # 设备部位
+    devPart = models.CharField(max_length=50, verbose_name='设备部位',blank=True)
+    # 故障描述 可做富文本
+    faultDescription=models.CharField(max_length=200, verbose_name='故障描述',blank=True)
+    # 检修内容
+    repairContent = models.CharField(max_length=200, verbose_name='检修内容',blank=True)
+    # 工作分类
+    workType=models.CharField(max_length=50, verbose_name='工作分类',blank=True)
+    # 故障分类
+    faultType=models.CharField(max_length=50, verbose_name='故障分类',blank=True)
+    # 备件名称
+    spareName=models.CharField(max_length=50, verbose_name='备件名称',blank=True)
+    # 备件类型
+    spareType=models.CharField(max_length=50, verbose_name='备件型号',blank=True)
+    # 备件单位
+    spareUnit=models.CharField(max_length=50, verbose_name='备件单位',blank=True)
+    # 备件数量
+    spareQuantity=models.CharField(max_length=50, verbose_name='备件数量',blank=True)
+    # 参与人员
+    participants=models.ManyToManyField(User,blank=True,verbose_name ='参与人员')
+    # 故障分析描述
+    description = RichTextUploadingField(blank=True,verbose_name ='故障分析描述')
+    # 故障状态 False,正在维修.True,维修完成
+    isfininsh = models.BooleanField(default=False,verbose_name ='故障状态')
+    # 创建时间
+    crtime = models.DateTimeField(auto_now_add=True,verbose_name ='创建时间')
+    # 修改时间
+    uptime = models.DateTimeField(auto_now=True,verbose_name ='修改时间')
+
+    def __str__(self):
+        return '{}正在，进行检修'.format(self.devName.name)
+    class Meta:
+        ordering = ['-crtime']
+        verbose_name = '检修台帐'
+        verbose_name_plural = '检修台帐'
