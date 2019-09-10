@@ -2,7 +2,7 @@ from openpyxl import load_workbook
 from internalmarket import models
 
 def godb():
-    wb2 = load_workbook('/home/huiu/mycode/qhj/devapi/ziliao/定额表.xlsx')
+    wb2 = load_workbook('/home/f2m4/mycode/qhj/devapi/ziliao/定额表.xlsx')
     sheet_ranges = wb2['1']
     xl_list=[]
 

@@ -84,7 +84,7 @@ class WorkRecAdmin(admin.ModelAdmin):
     # 多对多自定义
     def participants_list(self, obj):
         """自定义列表字段"""
-        participants_names = map(lambda x: x.username, obj.participants.all())
+        participants_names = map(lambda x: x.first_name, obj.participants.all())
         return ', '.join(participants_names)
     # 定义列名
-    participants_list.short_description = '设备表'
+    participants_list.short_description = '参与人也'

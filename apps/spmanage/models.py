@@ -26,7 +26,7 @@ class FactoryModel(models.Model):
         verbose_name_plural = '厂家信息'
 
 
-# 备件类型
+# 备件所属分类
 class TypeModel(models.Model):
     # 名称
     name = models.CharField(max_length=20,verbose_name ='名称')
@@ -40,9 +40,25 @@ class TypeModel(models.Model):
         return self.name
     class Meta:
         ordering = ['crtime']
-        verbose_name = '备件类型'
-        verbose_name_plural = '备件类型'
+        verbose_name = '备件分类'
+        verbose_name_plural = '备件分类'
 
+# 备件标签
+class TagModel(models.Model):
+    # 名称
+    name = models.CharField(max_length=20,verbose_name ='名称')
+    # 描述
+    description = models.TextField(blank=True,verbose_name ='描述')
+    # 创建时间
+    crtime = models.DateTimeField(auto_now_add=True,verbose_name ='创建时间')
+    # 修改时间
+    uptime = models.DateTimeField(auto_now=True,verbose_name ='修改时间')
+    def __str__(self):
+        return self.name
+    class Meta:
+        ordering = ['crtime']
+        verbose_name = '备件标签'
+        verbose_name_plural = '备件标签'
 
 # 备件信息
 class InfoModel(models.Model):
@@ -53,9 +69,11 @@ class InfoModel(models.Model):
     # 型号
     typenum = models.CharField(max_length=50,blank=True,verbose_name ='型号')
     # 厂家
-    factoryid = models.ForeignKey(FactoryModel,on_delete=models.DO_NOTHING,verbose_name ='厂家')
+    factoryid = models.ForeignKey(FactoryModel,on_delete=models.DO_NOTHING,blank=True,verbose_name ='厂家')
     # 备件类型
-    typeid = models.ForeignKey(TypeModel,on_delete=models.DO_NOTHING,verbose_name ='所属类型')
+    typeid = models.ForeignKey(TypeModel,on_delete=models.DO_NOTHING,blank=True,verbose_name ='所属类型')
+    # 备件标签
+    tagid = models.ManyToManyField(TagModel,blank=True,verbose_name='标签')
     # 创建时间
     crtime = models.DateTimeField(auto_now_add=True,verbose_name ='创建时间')
     # 修改时间

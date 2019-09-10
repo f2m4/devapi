@@ -2,7 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from ckeditor_uploader.fields import RichTextUploadingField
 from humanres.models import GroupModel,ClassModel
-
+from spmanage.models import InfoModel
 # Create your models here.
 # 生产线
 class WorklineModel(models.Model):
@@ -141,6 +141,8 @@ class WorkRecModel(models.Model):
     spareName=models.CharField(max_length=50, verbose_name='备件名称',blank=True)
     # 备件类型
     spareType=models.CharField(max_length=50, verbose_name='备件型号',blank=True)
+    # 备件类型id 外键
+    spareTypeId=models.ForeignKey(InfoModel,on_delete=models.DO_NOTHING,blank=True,verbose_name='备件编号')
     # 备件单位
     spareUnit=models.CharField(max_length=50, verbose_name='备件单位',blank=True)
     # 备件数量

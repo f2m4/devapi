@@ -4,7 +4,7 @@ from humanres.models import GroupModel,ClassModel
 from django.contrib.auth.models import User
 
 def godb():
-    wb2 = load_workbook('/home/huiu/mycode/qhj/devapi/ziliao/11111.xlsx')
+    wb2 = load_workbook('ziliao/11111.xlsx')
     sheet_ranges = wb2['2018年检修工作明细']
     xl_list=[]
 
@@ -15,24 +15,6 @@ def godb():
         xl_list.append(cell_list)
 
     print(xl_list[0])
-
-    # 新建生产线信息
-    def create_Workline(name,groupid):
-        try:
-            models.WorklineModel.objects.create(name=name, groupid=groupid)
-        except:
-            return "{}->创建失败".format(name)   # 已经创建，无法重复创建
-        else:
-            return "{}->创建成功".format(name)    # 创建成功
-
-    # 创建设备信息
-    def create_Devs(name,worklineid):
-        try:
-            models.WorklineModel.objects.create(name=name, worklineid=worklineid)
-        except:
-            return "{}->创建失败".format(name)   # 已经创建，无法重复创建
-        else:
-            return "{}->创建成功".format(name)    # 创建成功
 
     def create_WorkRec(classId,devName, devPart,faultDescription,repairContent,workType,faultType,spareName,
                        spareType,spareUnit,spareQuantity):
@@ -63,7 +45,14 @@ def godb():
     spareUnit=onedb[12]
     spareQuantity=onedb[13]
     participants_list=onedb[14].split()
-    participants_list=[User.objects.get(first_name=i) for i in participants_list]
+    participants_list_all=[]
+    for i in participants_list:
+        try:
+            who=User.objects.get(first_name=i)
+        except:
+            print(i,'用户不存在')
+        else:
+            participants_list_all.append(who)
     try:
         obj_workrec=models.WorkRecModel.objects.create(classId=classId, devName=devName, devPart=devPart,
                                            faultDescription=faultDescription, repairContent=repairContent,
@@ -73,7 +62,7 @@ def godb():
         print("{}->创建失败".format(devName))  # 已经创建，无法重复创建
     else:
         print("{}->创建成功".format(devName))
-        obj_workrec.participants.add(*participants_list)
+        obj_workrec.participants.add(*participants_list_all)
         # 创建成功
 
     # for row in xl_list:

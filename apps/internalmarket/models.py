@@ -60,7 +60,7 @@ class QingGongModel(models.Model):
     uptime = models.DateTimeField(auto_now=True,verbose_name ='修改时间')
 
     def __str__(self):
-        return self.workrecordid
+        return self.name
     class Meta:
         ordering = ['crtime']
         verbose_name = '人工费定额'
