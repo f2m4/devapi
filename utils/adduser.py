@@ -2,7 +2,7 @@ from django.contrib.auth.models import User
 from openpyxl import load_workbook
 
 def godb():
-    wb2 = load_workbook('/home/f2m4/mycode/qhj/devapi/ziliao/生产保障中心人员职工编号.xlsx')
+    wb2 = load_workbook('ziliao/生产保障中心人员职工编号.xlsx')
     sheet_ranges = wb2['中秋节']
     idnum_list=[]
 

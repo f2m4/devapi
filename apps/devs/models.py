@@ -129,25 +129,25 @@ class WorkRecModel(models.Model):
     # 设备名称
     devName=models.ForeignKey(DevsModel,on_delete=models.DO_NOTHING,verbose_name='设备名称')
     # 设备部位
-    devPart = models.CharField(max_length=50, verbose_name='设备部位',blank=True)
+    devPart = models.CharField(max_length=50, verbose_name='设备部位',null=True,blank=True)
     # 故障描述 可做富文本
-    faultDescription=models.TextField(verbose_name='故障描述',blank=True)
+    faultDescription=models.TextField(verbose_name='故障描述',null=True,blank=True)
     # 检修内容
-    repairContent = models.TextField(verbose_name='检修内容',blank=True)
+    repairContent = models.TextField(verbose_name='检修内容',null=True,blank=True)
     # 工作分类
-    workType=models.CharField(max_length=50, verbose_name='工作分类',blank=True)
+    workType=models.CharField(max_length=50, verbose_name='工作分类',null=True,blank=True)
     # 故障分类
-    faultType=models.CharField(max_length=50, verbose_name='故障分类',blank=True)
+    faultType=models.CharField(max_length=50, verbose_name='故障分类',null=True,blank=True)
     # 备件名称
-    spareName=models.CharField(max_length=50, verbose_name='备件名称',blank=True)
+    spareName=models.CharField(max_length=50, verbose_name='备件名称',null=True,blank=True)
     # 备件类型
-    spareType=models.CharField(max_length=50, verbose_name='备件型号',blank=True)
+    spareType=models.CharField(max_length=50, verbose_name='备件型号',null=True,blank=True)
     # 备件类型id 外键
     spareTypeId=models.ForeignKey(InfoModel,on_delete=models.DO_NOTHING,blank=True,null=True,verbose_name='备件编号')
     # 备件单位
-    spareUnit=models.CharField(max_length=50, verbose_name='备件单位',blank=True)
+    spareUnit=models.CharField(max_length=50, verbose_name='备件单位',null=True,blank=True)
     # 备件数量
-    spareQuantity=models.CharField(max_length=50, verbose_name='备件数量',blank=True)
+    spareQuantity=models.CharField(max_length=50, verbose_name='备件数量',null=True,blank=True)
     # 参与人员
     participants=models.ManyToManyField(User,blank=True,verbose_name ='参与人员')
     # 故障分析描述

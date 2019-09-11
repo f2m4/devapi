@@ -137,7 +137,8 @@ USE_I18N = True
 
 USE_L10N = True
 
-USE_TZ = True
+# 使用utc时间.注释掉,保证时间和数据库一致.
+# USE_TZ = True
 
 
 # Static files (CSS, JavaScript, Images)
