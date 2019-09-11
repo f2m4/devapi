@@ -76,8 +76,8 @@ class WorkRecordsAdmin(admin.ModelAdmin):
 @admin.register(models.WorkRecModel)
 class WorkRecAdmin(admin.ModelAdmin):
     list_display = ('id', 'devName', 'devPart', 'faultDescription','repairContent','workType','faultType',
-                    'spareName','spareType','spareUnit','spareQuantity','participants_list','description',
-                    'isfininsh','crtime', 'uptime')
+                    'spareName','spareType','spareTypeId','spareUnit','spareQuantity','participants_list','description',
+                    'isfininsh','recorder','bgTime','edTime','crtime', 'uptime')
     #设置点击进入编辑界面的链接字段
     list_display_links = ('id',)
 
@@ -87,4 +87,11 @@ class WorkRecAdmin(admin.ModelAdmin):
         participants_names = map(lambda x: x.first_name, obj.participants.all())
         return ', '.join(participants_names)
     # 定义列名
-    participants_list.short_description = '参与人也'
+    participants_list.short_description = '参与人员'
+
+# 时间测试
+@admin.register(models.TTModel)
+class TTAdmin(admin.ModelAdmin):
+    list_display = ('id','name', 'bir', 'crtime', 'uptime')
+    #设置点击进入编辑界面的链接字段
+    list_display_links = ('id', 'name')

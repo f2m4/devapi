@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from ckeditor_uploader.fields import RichTextUploadingField
 from humanres.models import GroupModel,ClassModel
 from spmanage.models import InfoModel
+import django.utils.timezone as timezone
 # Create your models here.
 # 生产线
 class WorklineModel(models.Model):
@@ -142,7 +143,7 @@ class WorkRecModel(models.Model):
     # 备件类型
     spareType=models.CharField(max_length=50, verbose_name='备件型号',blank=True)
     # 备件类型id 外键
-    spareTypeId=models.ForeignKey(InfoModel,on_delete=models.DO_NOTHING,blank=True,verbose_name='备件编号')
+    spareTypeId=models.ForeignKey(InfoModel,on_delete=models.DO_NOTHING,blank=True,null=True,verbose_name='备件编号')
     # 备件单位
     spareUnit=models.CharField(max_length=50, verbose_name='备件单位',blank=True)
     # 备件数量
@@ -153,6 +154,12 @@ class WorkRecModel(models.Model):
     description = RichTextUploadingField(blank=True,verbose_name ='故障分析描述')
     # 故障状态 False,正在维修.True,维修完成
     isfininsh = models.BooleanField(default=False,verbose_name ='故障状态')
+    # 录入员
+    recorder = models.ForeignKey(User,on_delete=models.DO_NOTHING,blank=True,null=True,related_name='recorder',verbose_name='录入员')
+    # 开始时间
+    bgTime=models.DateTimeField(verbose_name='开始时间',default=timezone.datetime(2019,1,1,12))
+    # 结束时间
+    edTime=models.DateTimeField(verbose_name='结束时间',default=timezone.datetime(2019,1,1,12))
     # 创建时间
     crtime = models.DateTimeField(auto_now_add=True,verbose_name ='创建时间')
     # 修改时间
@@ -164,3 +171,21 @@ class WorkRecModel(models.Model):
         ordering = ['-crtime']
         verbose_name = '检修台帐'
         verbose_name_plural = '检修台帐'
+
+# 时间测试
+class TTModel(models.Model):
+    # 名称
+    name = models.CharField(max_length=30,verbose_name ='名称')
+    # 出生日期
+    bir=models.DateTimeField(verbose_name='出生日期')
+    # 创建时间
+    crtime = models.DateTimeField(auto_now_add=True,verbose_name ='创建时间')
+    # 修改时间
+    uptime = models.DateTimeField(auto_now=True,verbose_name ='修改时间')
+
+    def __str__(self):
+        return self.name
+    class Meta:
+        ordering = ['name']
+        verbose_name = '生日'
+        verbose_name_plural = '生日'
