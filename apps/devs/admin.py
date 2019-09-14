@@ -76,7 +76,7 @@ class WorkRecordsAdmin(admin.ModelAdmin):
 @admin.register(models.WorkRecModel)
 class WorkRecAdmin(admin.ModelAdmin):
     list_display = ('id', 'devName', 'devPart', 'faultDescription','repairContent','workType','faultType',
-                    'spareName','spareType','spareTypeId','spareUnit','spareQuantity','participants_list','description',
+                    'spareName','spareType','spareUnit','spareQuantity','participants_list','description',
                     'isfininsh','recorder','bgTime','edTime','crtime', 'uptime')
     #设置点击进入编辑界面的链接字段
     list_display_links = ('id',)

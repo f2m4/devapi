@@ -1,8 +1,9 @@
 from django.db import models
 from django.contrib.auth.models import User
 from ckeditor_uploader.fields import RichTextUploadingField
+# from spmanage.models import InfoModel
 from humanres.models import GroupModel,ClassModel
-from spmanage.models import InfoModel
+
 import django.utils.timezone as timezone
 # Create your models here.
 # 生产线
@@ -28,7 +29,7 @@ class WorklineModel(models.Model):
 # 设备
 class DevsModel(models.Model):
     # 名称
-    name = models.CharField(max_length=20,verbose_name ='名称')
+    name = models.CharField(max_length=100,verbose_name ='名称')
     # 描述
     description = models.TextField(blank=True,verbose_name ='描述')
     # 所属生产线
@@ -124,7 +125,7 @@ class WorkRecordsModel(models.Model):
 
 
 class WorkRecModel(models.Model):
-    #工作班组
+    # 工作班组
     classId=models.ForeignKey(ClassModel,on_delete=models.DO_NOTHING,verbose_name='班组')
     # 设备名称
     devName=models.ForeignKey(DevsModel,on_delete=models.DO_NOTHING,verbose_name='设备名称')
@@ -142,8 +143,8 @@ class WorkRecModel(models.Model):
     spareName=models.CharField(max_length=50, verbose_name='备件名称',null=True,blank=True)
     # 备件类型
     spareType=models.CharField(max_length=50, verbose_name='备件型号',null=True,blank=True)
-    # 备件类型id 外键
-    spareTypeId=models.ForeignKey(InfoModel,on_delete=models.DO_NOTHING,blank=True,null=True,verbose_name='备件编号')
+    # # 备件类型id 外键 出现依赖循环.不应放在此表.
+    # spareTypeId=models.ForeignKey(InfoModel,on_delete=models.DO_NOTHING,blank=True,null=True,verbose_name='备件编号')
     # 备件单位
     spareUnit=models.CharField(max_length=50, verbose_name='备件单位',null=True,blank=True)
     # 备件数量

@@ -42,9 +42,25 @@ class WorkerfeeModel(models.Model):
     # 修改时间
     uptime = models.DateTimeField(auto_now=True,verbose_name ='修改时间')
 
+# 定额标签
+class TagModel(models.Model):
+    # 名称
+    name = models.CharField(max_length=100,verbose_name ='名称')
+    # 说明
+    descript = models.CharField(max_length=100,verbose_name ='说明',blank=True)
+    # 创建时间
+    crtime = models.DateTimeField(auto_now_add=True,verbose_name ='创建时间')
+    # 修改时间
+    uptime = models.DateTimeField(auto_now=True,verbose_name ='修改时间')
 
+    def __str__(self):
+        return self.name
+    class Meta:
+        ordering = ['id']
+        verbose_name = '定额标签'
+        verbose_name_plural = '定额标签'
 
-# 清工
+#工作定额
 class QingGongModel(models.Model):
     # 名称
     name = models.CharField(max_length=100,verbose_name ='作业名称')
@@ -54,6 +70,8 @@ class QingGongModel(models.Model):
     fee=models.IntegerField(blank=True,verbose_name ='人工费')
     # 备注
     remark = models.CharField(max_length=100,verbose_name ='备注',blank=True)
+    # 标签
+    tag = models.ManyToManyField(TagModel,blank=True,verbose_name='所属部分')
     # 创建时间
     crtime = models.DateTimeField(auto_now_add=True,verbose_name ='创建时间')
     # 修改时间
@@ -63,5 +81,5 @@ class QingGongModel(models.Model):
         return self.name
     class Meta:
         ordering = ['crtime']
-        verbose_name = '人工费定额'
-        verbose_name_plural = '人工费定额'
+        verbose_name = '工作定额'
+        verbose_name_plural = '工作定额'
