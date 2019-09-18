@@ -6,17 +6,37 @@ from . import models
 @admin.register(models.GroupModel)
 class GroupAdmin(admin.ModelAdmin):
     list_display = ('id', 'name', 'description', 'crtime', 'uptime')
-    # site_header = '设备管理系统'  # 此处设置页面显示标题
-    # site_title = '设备管理'  # 此处设置页面头部标题
+    # 搜索框  字段
+    search_fields = ['name']
 
 
 @admin.register(models.ClassModel)
 class ClassAdmin(admin.ModelAdmin):
-    list_display = ('id', 'name', 'description','group', 'crtime', 'uptime')
+    list_display = ('id', 'group','name', 'description')
+    # 设置点击进入编辑界面的链接字段
+    list_display_links = ('id', 'name')
+    # 设置默认可编辑字段，在列表里就可以编辑  注意:不能与list_display_links重复
+    list_editable = []
+    # 搜索框  字段
+    search_fields = ['group', 'name']
+    # 过滤字段
+    list_filter = ['group', 'name']
+    # list_per_page设置每页显示多少条记录，默认是100条
+    list_per_page = 50
 
 @admin.register(models.OfficeModel)
 class OfficeAdmin(admin.ModelAdmin):
-    list_display = ('id', 'name', 'description', 'groupid','classid','crtime', 'uptime')\
+    list_display = ('id', 'name', 'description', 'groupid','classid','crtime', 'uptime')
+    # 设置点击进入编辑界面的链接字段
+    list_display_links = ('id', 'name')
+    # 设置默认可编辑字段，在列表里就可以编辑  注意:不能与list_display_links重复
+    list_editable = []
+    # 搜索框  字段
+    search_fields = ['groupid', 'name']
+    # 过滤字段
+    list_filter = ['groupid', 'name']
+    # list_per_page设置每页显示多少条记录，默认是100条
+    list_per_page = 50
 
 
 @admin.register(models.PersonnelModel)
@@ -28,8 +48,16 @@ class PersonnelAdmin(admin.ModelAdmin):
         """自定义列表字段"""
         office_names = map(lambda x: x.name, obj.office.all())
         return ', '.join(office_names)
-
-
+    # 设置点击进入编辑界面的链接字段
+    list_display_links = ('id', 'nickname')
+    # 设置默认可编辑字段，在列表里就可以编辑  注意:不能与list_display_links重复
+    list_editable = []
+    # 搜索框  字段
+    search_fields = ['phonenum', 'nickname']
+    # 过滤字段
+    list_filter = ['groupid', 'classid']
+    # list_per_page设置每页显示多少条记录，默认是100条
+    list_per_page = 50
 
 # # 自定义行内类
 # class PersonnelInline(admin.StackedInline):

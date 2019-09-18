@@ -9,7 +9,9 @@ from spmanage.models import FactoryModel,InfoModel,TypeModel,TagModel
 def godb():
     wb2 = load_workbook('ziliao/ck/轻合金液压件台帐2017.12.11.xlsx')
     sheet_ranges = wb2['液压泵台帐']
+    # 生成器
     rows_iter= (row for row in sheet_ranges.rows)
+    # 跳过前两行数据
     next(rows_iter)
     next(rows_iter)
 
@@ -37,7 +39,9 @@ def godb():
             obj.tagid.add(tagid)
 
     i=1
+    # 循环生成器
     for row in rows_iter:
+        # 每行的值,组成列表
         cell_list=[i.value for i in row]
         print('开始导入第 {} 行,编号{}'.format(i,cell_list[0]))
         print(cell_list)

@@ -87,9 +87,6 @@ class WorkRecAdmin(admin.ModelAdmin):
     #设置默认可编辑字段，在列表里就可以编辑  注意:不能与list_display_links重复
     list_editable = []
 
-    # fk_fields 设置显示外键字段
-    fk_fields = ['classId']
-
     # 多对多自定义列
     def participants_list(self, obj):
         """自定义列表字段"""
