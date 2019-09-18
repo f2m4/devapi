@@ -2,6 +2,10 @@ from django.contrib import admin
 from . import models
 # Register your models here.
 
+admin.site.site_header = '生产保障中心数据管理'
+admin.site.site_title = '生产保障中心'
+
+
 # 生产线
 @admin.register(models.WorklineModel)
 class WorklineAdmin(admin.ModelAdmin):
@@ -16,8 +20,6 @@ class DevsAdmin(admin.ModelAdmin):
     list_display = ('id', 'name', 'description','worklineid', 'crtime', 'uptime')
     #设置点击进入编辑界面的链接字段
     list_display_links = ('id', 'name')
-    site_header = '设备管理系统'  # 此处设置页面显示标题
-    site_title = '设备管理'  # 此处设置页面头部标题
 
 
 # 设备包机人
@@ -75,13 +77,20 @@ class WorkRecordsAdmin(admin.ModelAdmin):
 # 维修台帐
 @admin.register(models.WorkRecModel)
 class WorkRecAdmin(admin.ModelAdmin):
-    list_display = ('id', 'devName', 'devPart', 'faultDescription','repairContent','workType','faultType',
+    #设置要显示在列表中的字段
+    list_display = ('id', 'classId','devName', 'devPart', 'faultDescription','repairContent','workType','faultType',
                     'spareName','spareType','spareUnit','spareQuantity','participants_list','description',
-                    'isfininsh','recorder','bgTime','edTime','crtime', 'uptime')
+                    'get_isfinish','recorder','bgTime','edTime','crtime')
     #设置点击进入编辑界面的链接字段
-    list_display_links = ('id',)
+    list_display_links = ('id','faultDescription','repairContent')
 
-    # 多对多自定义
+    #设置默认可编辑字段，在列表里就可以编辑  注意:不能与list_display_links重复
+    list_editable = []
+
+    # fk_fields 设置显示外键字段
+    fk_fields = ['classId']
+
+    # 多对多自定义列
     def participants_list(self, obj):
         """自定义列表字段"""
         participants_names = map(lambda x: x.first_name, obj.participants.all())
@@ -89,9 +98,29 @@ class WorkRecAdmin(admin.ModelAdmin):
     # 定义列名
     participants_list.short_description = '参与人员'
 
-# 时间测试
-@admin.register(models.TTModel)
-class TTAdmin(admin.ModelAdmin):
-    list_display = ('id','name', 'bir', 'crtime', 'uptime')
-    #设置点击进入编辑界面的链接字段
-    list_display_links = ('id', 'name')
+    # list_per_page设置每页显示多少条记录，默认是100条
+    list_per_page = 50
+
+    # ordering设置默认排序字段，负号表示降序排序
+    ordering = ('-crtime',)
+
+    #列表顶部，设置为False不在顶部显示，默认为True。
+    actions_on_top=True
+
+    #列表底部，设置为False不在底部显示，默认为False。
+    actions_on_bottom=True
+
+    #搜索框  字段
+    search_fields=['devPart', 'faultDescription','repairContent']
+
+    #过滤字段
+    list_filter = ['classId']
+
+    def get_isfinish(self, obj):
+        if not obj.isfininsh:
+            return "正在修复"
+        else:
+            return "完成"
+
+    get_isfinish.short_description = '修复状态'
+    get_isfinish.allow_tags = True

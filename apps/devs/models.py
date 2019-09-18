@@ -123,7 +123,7 @@ class WorkRecordsModel(models.Model):
         verbose_name = '检修记录'
         verbose_name_plural = '检修记录'
 
-
+#设备检修台帐
 class WorkRecModel(models.Model):
     # 工作班组
     classId=models.ForeignKey(ClassModel,on_delete=models.DO_NOTHING,verbose_name='班组')
@@ -132,9 +132,9 @@ class WorkRecModel(models.Model):
     # 设备部位
     devPart = models.CharField(max_length=50, verbose_name='设备部位',null=True,blank=True)
     # 故障描述 可做富文本
-    faultDescription=models.TextField(verbose_name='故障描述',null=True,blank=True)
+    faultDescription=RichTextUploadingField(verbose_name='故障描述',null=True,blank=True)
     # 检修内容
-    repairContent = models.TextField(verbose_name='检修内容',null=True,blank=True)
+    repairContent = RichTextUploadingField(verbose_name='检修内容',null=True,blank=True)
     # 工作分类
     workType=models.CharField(max_length=50, verbose_name='工作分类',null=True,blank=True)
     # 故障分类
@@ -173,20 +173,4 @@ class WorkRecModel(models.Model):
         verbose_name = '检修台帐'
         verbose_name_plural = '检修台帐'
 
-# 时间测试
-class TTModel(models.Model):
-    # 名称
-    name = models.CharField(max_length=30,verbose_name ='名称')
-    # 出生日期
-    bir=models.DateTimeField(verbose_name='出生日期')
-    # 创建时间
-    crtime = models.DateTimeField(auto_now_add=True,verbose_name ='创建时间')
-    # 修改时间
-    uptime = models.DateTimeField(auto_now=True,verbose_name ='修改时间')
 
-    def __str__(self):
-        return self.name
-    class Meta:
-        ordering = ['name']
-        verbose_name = '生日'
-        verbose_name_plural = '生日'

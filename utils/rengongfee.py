@@ -3,7 +3,9 @@ from internalmarket import models
 
 def godb():
     wb2 = load_workbook('ziliao/定额表.xlsx')
-    sheet_ranges = wb2['3']
+    sheet_ranges = wb2['1']
+    #sheet_ranges = wb2['2']
+    #sheet_ranges = wb2['3']
     xl_list=[]
 
     for row in sheet_ranges.rows:
@@ -13,7 +15,6 @@ def godb():
         xl_list.append(cell_list)
 
     print(xl_list[0])
-
 
     def db_create_go(name,workingHours, fee,remark):
         try:
