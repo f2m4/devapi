@@ -146,11 +146,11 @@ USE_L10N = True
 
 STATIC_URL = '/static/'
 # 定义全局的static文件目录
-#STATICFILES_DIRS = [
-#     os.path.join(BASE_DIR, "static"),
-# ]
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, "static"),
+]
 # 部署时
-STATIC_ROOT = os.path.join(BASE_DIR, "static")
+# STATIC_ROOT = os.path.join(BASE_DIR, "static")
 
 REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
@@ -161,7 +161,12 @@ REST_FRAMEWORK = {
 
 SIMPLEUI_LOGO='/static/pic/yklogo.png'
 SIMPLEUI_HOME_TITLE = '轻合金生产保障中心'
-
+# 静态资源离线可载入
+SIMPLEUI_STATIC_OFFLINE = True
+# 服务器信息
+SIMPLEUI_HOME_INFO = False
+# 最近动作
+SIMPLEUI_HOME_ACTION = False
 
 
 # media目录
