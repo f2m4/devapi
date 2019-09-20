@@ -5,15 +5,7 @@ from humanres import models
 def godb():
     wb2 = load_workbook('ziliao/new讯录.xlsx')
     sheet_ranges = wb2['new']
-    idnum_list=[]
-
-    for row in sheet_ranges.rows:
-        cell_list = []
-        for cell in row:
-            cell_list.append(cell.value)
-        idnum_list.append(cell_list)
-
-    print(idnum_list)
+    rows_iter= (row for row in sheet_ranges.rows)
 
 #创建用户
     def db_create_personnel(uid,numid, nickname,phonenum,phoneoffice,groupid,classid):
@@ -25,22 +17,32 @@ def godb():
         else:
             return "{}~~创建成功".format(nickname)  # 创建成功
 
-    for user in idnum_list:
+    i = 1
+    for row in rows_iter:
+        cell_list = [i.value for i in row]
+        print('开始导入第 {} 行,编号{}'.format(i, cell_list[0]))
+        i += 1
+        print(cell_list)
+        if cell_list[0] is None:
+            print('!!!!!!!!!!!!!!!!!!!跳过此行!!!!!!!!!')
+            i += 1
+            continue
+
         try:
-            uid=User.objects.get(first_name=user[2])
+            uid=User.objects.get(first_name=cell_list[2])
         except User.DoesNotExist:
-            print(user[2],"用户不存在,正在创建....")
+            print(cell_list[2],"用户不存在,正在创建....")
             # 用户不再User里,以手机号码来创建用户!
-            uid=User.objects.create_user(username=user[3], password='88888888', is_active=True,first_name=user[2])
-            print(user[2], "用户创建成功,继续导入操作!")
+            uid=User.objects.create_user(username=cell_list[3], password='88888888', is_active=True,first_name=cell_list[2])
+            print(cell_list[2], "用户创建成功,继续导入操作!")
         finally:
-            uid=User.objects.get(first_name=user[2])
+            uid=User.objects.get(first_name=cell_list[2])
             numid=uid.username
-            nickname=user[2]
-            phonenum=user[3]
-            phoneoffice='' if user[4] is None else user[4]
-            groupid=models.GroupModel.objects.get_or_create(name=user[0])[0]
-            classid=models.ClassModel.objects.get_or_create(name=user[1],group=groupid)[0]
+            nickname=cell_list[2]
+            phonenum=cell_list[3]
+            phoneoffice='' if cell_list[4] is None else cell_list[4]
+            groupid=models.GroupModel.objects.get_or_create(name=cell_list[0])[0]
+            classid=models.ClassModel.objects.get_or_create(name=cell_list[1],group=groupid)[0]
             msg=db_create_personnel(uid,numid, nickname,phonenum,phoneoffice,groupid,classid)
             print(msg)
             print('~~~~~~~~~~~~~~~~~~~~~~~~~~~~')

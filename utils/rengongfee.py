@@ -3,18 +3,10 @@ from internalmarket import models
 
 def godb():
     wb2 = load_workbook('ziliao/定额表.xlsx')
-    sheet_ranges = wb2['1']
-    #sheet_ranges = wb2['2']
-    #sheet_ranges = wb2['3']
-    xl_list=[]
-
-    for row in sheet_ranges.rows:
-        cell_list = []
-        for cell in row:
-            cell_list.append(cell.value)
-        xl_list.append(cell_list)
-
-    print(xl_list[0])
+    # sheet_ranges = wb2['1']
+    # sheet_ranges = wb2['2']
+    sheet_ranges = wb2['3']
+    rows_iter= (row for row in sheet_ranges.rows)
 
     def db_create_go(name,workingHours, fee,remark):
         try:
@@ -27,14 +19,20 @@ def godb():
             obj.tag.add(tag)
             return "{}->创建成功".format(name)   # 创建成功
 
+    i = 1
+    for row in rows_iter:
+        cell_list = [i.value for i in row]
+        print('开始导入第 {} 行'.format(i, cell_list[0]))
+        # print(cell_list)
+        if cell_list[0] is None:
+            print('!!!!!!!!!!!!!!!!!!!跳过此行!!!!!!!!!')
+            i += 1
+            continue
+        i += 1
+        print(db_create_go(cell_list[1], cell_list[4] if cell_list[4] is not None else '', cell_list[5],cell_list[6]))
+        print('导入完毕~~~~~~~~~~~~~~~~~~')
 
-    for row in xl_list:
-        name=row[1]
-        workingHours= row[4] if row[4] is not None else ''
-        fee=row[5]
-        remark=row[6]
-        issuccess=db_create_go(name,workingHours, fee,remark)
-        print(issuccess)
+
     print('添加完成')
 # from openpyxl import Workbook
 # wb = Workbook()
